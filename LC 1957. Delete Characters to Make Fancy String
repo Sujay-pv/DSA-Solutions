@@ -1,0 +1,31 @@
+A fancy string is a string where no three consecutive characters are equal.
+Given a string s, delete the minimum possible number of characters from s to make it fancy.
+Return the final string after the deletion. It can be shown that the answer will always be unique.
+
+Example 1:
+Input: s = "leeetcode"
+Output: "leetcode"
+Explanation:
+Remove an 'e' from the first group of 'e's to create "leetcode".
+No three consecutive characters are equal, so return "leetcode".
+
+Solution:
+class Solution {
+    public String makeFancyString(String s) {
+        int count =1;
+        StringBuilder result = new StringBuilder();
+        result.append(s.charAt(0)); //append the first character
+        for(int i=1; i<s.length(); i++){
+            if(s.charAt(i) == s.charAt(i-1)){  //check the previous character
+                count++;
+            }
+            else{
+                count =1;                    // reset count to 1, if doesn't match
+            }
+            if(count <3){
+                result.append(s.charAt(i));  //if the count is not exceeding 3, append to stringBuilder
+            }
+        }
+        return result.toString();
+    }
+}
