@@ -1,0 +1,33 @@
+Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.
+
+Example 1:
+Input: head = [1,1,2]
+Output: [1,2]
+
+Example 2:
+Input: head = [1,1,2,3,3]
+Output: [1,2,3]
+
+Solution:
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode dummy = new ListNode();      
+        dummy.next = head;
+        if(head == null) return null;
+        if(head.next == null) return head;
+        ListNode prev = head;
+        ListNode curr = prev.next;
+
+        while(curr!=null){
+            if(curr.val == prev.val){
+                prev.next = curr.next; //breaking link between prev and duplicate element
+                curr= curr.next;      //only move curr as prev will stay in place.
+            }
+            else{
+                prev=prev.next;      //just move along buddy
+                curr=curr.next;
+            }
+        }
+        return dummy.next;          
+    }
+}
