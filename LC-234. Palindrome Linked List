@@ -1,0 +1,28 @@
+Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+
+Solution:
+Tried solving using the stack approach since I found this under the Stack category of questions. 
+But this is definitely not an optimised solution as this also violates the O(1) spaace complexity constraint.
+
+Since Stack is LIFO it reverses the order when popped hence making this an intuivitive approach.
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        Stack<Integer> myStack = new Stack<>();
+        ListNode temp = head;
+        if(head.next == null) return true;
+        while(temp!=null){
+            myStack.push(temp.val);
+            temp = temp.next;
+        }
+
+        temp = head;
+        while(temp!=null){
+            if(temp.val!= myStack.pop()){
+                return false;
+            }
+            temp = temp.next;
+        }
+        return true;
+    }
+}
