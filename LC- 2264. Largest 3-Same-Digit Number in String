@@ -9,3 +9,23 @@ Note:
 
 A substring is a contiguous sequence of characters within a string.
 There may be leading zeroes in num or a good integer.
+
+Solution:
+class Solution {
+      public String largestGoodInteger(String num) {
+        String maxGood = "";
+
+        for (int i = 0; i <= num.length() - 3; i++) {
+            String sub = num.substring(i, i + 3);
+            // Check if all characters are the same
+            if (sub.charAt(0) == sub.charAt(1) && sub.charAt(1) == sub.charAt(2)) {
+                // Compare lexicographically to keep the largest
+                if (maxGood.isEmpty() || sub.compareTo(maxGood) > 0) {
+                    maxGood = sub;
+                }
+            }
+        }
+
+        return maxGood;
+    }
+}
