@@ -1,0 +1,54 @@
+You are given an n x n square matrix of integers grid. Return the matrix such that:
+
+The diagonals in the bottom-left triangle (including the middle diagonal) are sorted in non-increasing order.
+The diagonals in the top-right triangle are sorted in non-decreasing order.
+ 
+
+Example 1:
+
+Input: grid = [[1,7,3],[9,8,2],[4,5,6]]
+
+Output: [[8,2,3],[9,6,7],[4,5,1]]
+
+Solution:
+class Solution {
+    public int[][] sortMatrix(int[][] mat) {
+        int n = mat.length;
+
+        // All diagonals in the matrix are identified by (i - j)
+        Map<Integer, List<Integer>> diagonals = new HashMap<>();
+
+        // Collect all diagonals
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int key = i - j;
+                diagonals.putIfAbsent(key, new ArrayList<>());
+                diagonals.get(key).add(mat[i][j]);
+            }
+        }
+
+        // Sort diagonals: bottom-left triangle (i >= j) -> descending, top-right (i < j) -> ascending
+        for (Map.Entry<Integer, List<Integer>> entry : diagonals.entrySet()) {
+            int key = entry.getKey();
+            List<Integer> list = entry.getValue();
+            if (key >= 0) { // bottom-left including main diagonal
+                list.sort(Collections.reverseOrder());
+            } else { // top-right triangle
+                Collections.sort(list);
+            }
+        }
+
+        // Write back sorted diagonals
+        int[][] res = new int[n][n];
+        int[][] counters = new int[n][n]; // counters not needed actually, we can just use index in list
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int key = i - j;
+                List<Integer> list = diagonals.get(key);
+                res[i][j] = list.remove(0); // take from the front
+            }
+        }
+
+        return res;
+    }
+}
