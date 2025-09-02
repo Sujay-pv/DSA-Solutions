@@ -1,0 +1,45 @@
+You are given a 2D array points of size n x 2 representing integer coordinates of some points on a 2D plane, where points[i] = [xi, yi].
+
+Count the number of pairs of points (A, B), where
+
+A is on the upper left side of B, and
+there are no other points in the rectangle (or line) they make (including the border).
+Return the count.
+
+Solution:
+
+class Solution {
+    public int numberOfPairs(int[][] points) {
+        // Sort points by x ascending, and if x is same then y descending
+        Arrays.sort(points, (a, b) -> a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]);
+
+        int n = points.length;
+        int ans = 0;
+
+        // Iterate over all possible pairs (i, j)
+        for (int i = 0; i < n; i++) {
+            int x1 = points[i][0], y1 = points[i][1];
+            for (int j = i + 1; j < n; j++) {
+                int x2 = points[j][0], y2 = points[j][1];
+
+                // Condition: A (x1,y1) is upper-left of B (x2,y2)
+                if (x1 <= x2 && y1 >= y2) {
+                    boolean valid = true;
+
+                    // Check if any other point lies in/on the rectangle between A and B
+                    for (int k = i + 1; k < j; k++) {
+                        int x = points[k][0], y = points[k][1];
+                        if (x1 <= x && x <= x2 && y2 <= y && y <= y1) {
+                            valid = false;
+                            break;
+                        }
+                    }
+
+                    if (valid) ans++;
+                }
+            }
+        }
+
+        return ans;
+    }
+}
